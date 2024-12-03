@@ -15,6 +15,10 @@ python log_parser.py
 ```bash
 pip install -r requirements.txt
 ```
+## create sample logs (if necessary)
+```bash
+generate_sample_logs.py
+```
 
 ## Run
 ```bash

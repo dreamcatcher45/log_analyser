@@ -31,15 +31,14 @@ def run_performance_test(log_file="sample.log"):
     
     # Measure parsing performance
     print("\nParsing log file...")
-    start_time = time.time()
+    start_time = time.perf_counter()
     
     # Run analysis
     ip_hits, endpoints, failed_logins = analyze_log(log_file)
     suspicious = {ip: count for ip, count in failed_logins.items() if count >= 10}
     
     # Calculate metrics
-    end_time = time.time()
-    end_memory = get_memory_usage()
+    end_time = time.perf_counter()
     
     # Print results
     print_analysis_results(ip_hits, endpoints, suspicious)
@@ -49,11 +48,20 @@ def run_performance_test(log_file="sample.log"):
     print(f"\n{'='*50}")
     print("Performance Metrics:")
     print(f"{'='*50}")
-    print(f"Total Processing Time: {end_time - start_time:.2f} seconds")
-    print(f"Lines Processed: {total_lines:,}")
-    print(f"Processing Speed: {total_lines/(end_time - start_time):,.0f} lines/second")
-    print(f"Memory Usage: {end_memory - start_memory:.2f} MB")
-    print(f"Memory Usage per Line: {((end_memory - start_memory) / total_lines) * 1024:.2f} KB/line")
+    elapsed_time = end_time - start_time
+    if elapsed_time > 0:
+        print(f"Total Processing Time: {elapsed_time:.2f} seconds")
+        print(f"Lines Processed: {total_lines:,}")
+        print(f"Processing Speed: {total_lines/elapsed_time:,.0f} lines/second")
+    else:
+        print("Total Processing Time: < 1 second")
+        print(f"Lines Processed: {total_lines:,}")
+        print("Processing Speed: N/A")
+    print(f"Memory Usage: {get_memory_usage() - start_memory:.2f} MB")
+    if total_lines > 0:
+        print(f"Memory Usage per Line: {(get_memory_usage() - start_memory) / total_lines * 1024:.2f} KB/line")
+    else:
+        print("Memory Usage per Line: N/A")
     print(f"{'='*50}\n")
 
 if __name__ == "__main__":

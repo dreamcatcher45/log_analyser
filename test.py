@@ -35,7 +35,7 @@ def run_performance_test(log_file="sample.log"):
     
     # Run analysis
     ip_hits, endpoints, failed_logins = analyze_log(log_file)
-    suspicious = {ip: count for ip, count in failed_logins.items() if count >= 3}
+    suspicious = {ip: count for ip, count in failed_logins.items() if count >= 10}
     
     # Calculate metrics
     end_time = time.time()

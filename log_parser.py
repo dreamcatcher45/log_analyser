@@ -90,8 +90,8 @@ def main(filename: str = "sample.log") -> None:
         # Analyze log file
         ip_hits, endpoints, failed_logins = analyze_log(filename)
         
-        # Filter suspicious activity (3 or more failed logins)
-        suspicious = {ip: count for ip, count in failed_logins.items() if count >= 3}
+        # Filter suspicious activity (10 or more failed logins)
+        suspicious = {ip: count for ip, count in failed_logins.items() if count >= 10}
         
         # Output results
         print_analysis_results(ip_hits, endpoints, suspicious)
